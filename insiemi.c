@@ -30,7 +30,10 @@ int intersezione(float *insieme_intersezione,
                  float primo_insieme[],
                  float secondo_insieme[],
                  int cardinalita_primo_insieme,
-                 int cardinalita_secondo_insieme);
+                 int cardinalita_secondo_insieme,
+                 int i,
+                 int j,
+                 int cardinalita_intersezione);
 
 int differenza(float *insieme_differenza,
                float primo_insieme[],
@@ -40,11 +43,11 @@ int differenza(float *insieme_differenza,
                int i,
                int cardinalita_differenza);
 
-/*int differenza_simmetrica(float *insieme_differenza_simmetrica,
+int differenza_simmetrica(float *insieme_differenza_simmetrica,
                           float primo_insieme[],
                           float secondo_insieme[],
                           int cardinalita_primo_insieme,
-                          int cardinalita_secondo_insieme);*/
+                          int cardinalita_secondo_insieme);
 
 void stampa_operazione(int operazione,
                        int cardinalita,
@@ -60,8 +63,8 @@ int main()
     int cardinalita_primo_insieme,
         cardinalita_secondo_insieme,
         cardinalita_intersezione,
-        cardinalita_differenza/*,
-    cardinalita_differenza_simmetrica*/;
+        cardinalita_differenza,
+        cardinalita_differenza_simmetrica;
     
     acquisisci_cardinalita(&cardinalita_primo_insieme,
                            true);
@@ -70,7 +73,7 @@ int main()
     
     float insieme_intersezione[100],
           insieme_differenza[100],
-    //insieme_differenza_simmetrica[100],
+          insieme_differenza_simmetrica[100],
           primo_insieme[cardinalita_primo_insieme],
           secondo_insieme[cardinalita_secondo_insieme];
     
@@ -85,7 +88,10 @@ int main()
                                             primo_insieme,
                                             secondo_insieme,
                                             cardinalita_primo_insieme,
-                                            cardinalita_secondo_insieme);
+                                            cardinalita_secondo_insieme,
+                                            0,
+                                            0,
+                                            0);
     cardinalita_differenza   = differenza(insieme_differenza,
                                           primo_insieme,
                                           secondo_insieme,
@@ -94,11 +100,11 @@ int main()
                                           0,
                                           0);
     
-    /*cardinalita_differenza_simmetrica = differenza_simmetrica(insieme_differenza_simmetrica,
+    cardinalita_differenza_simmetrica = differenza_simmetrica(insieme_differenza_simmetrica,
                                                               primo_insieme,
                                                               secondo_insieme,
                                                               cardinalita_primo_insieme,
-                                                              cardinalita_secondo_insieme);*/
+                                                              cardinalita_secondo_insieme);
     
     printf("\n[UGUAGLIANZA]: ");
     if (uguaglianza(primo_insieme,
@@ -119,9 +125,9 @@ int main()
     stampa_operazione(2,
                       cardinalita_differenza,
                       insieme_differenza);
-    /*stampa_operazione(3,
+    stampa_operazione(3,
                       cardinalita_differenza_simmetrica,
-                      insieme_differenza_simmetrica);*/
+                      insieme_differenza_simmetrica);
     return 0;
 }
 
@@ -395,14 +401,14 @@ int intersezione(float *insieme_intersezione,
                  float primo_insieme[],
                  float secondo_insieme[],
                  int cardinalita_primo_insieme,
-                 int cardinalita_secondo_insieme)
+                 int cardinalita_secondo_insieme,
+                 int i,
+                 int j,
+                 int cardinalita_intersezione)
 {
-    int i                        = 0,
-        j                        = 0,
-        cardinalita_intersezione = 0;
     
-    while (i < cardinalita_primo_insieme &&
-           j < cardinalita_secondo_insieme)
+    if (i < cardinalita_primo_insieme &&
+        j < cardinalita_secondo_insieme)
     {
         if (primo_insieme[i] < secondo_insieme[j])
         {
@@ -414,6 +420,7 @@ int intersezione(float *insieme_intersezione,
         }
         else /* if primo_insieme[i] == secondo_insieme[j] */
         {
+            i++;
             if (cerca_in_insieme(insieme_intersezione,
                                  cardinalita_intersezione,
                                  secondo_insieme[j]) == 0)
@@ -421,13 +428,20 @@ int intersezione(float *insieme_intersezione,
                 insieme_intersezione[cardinalita_intersezione] = secondo_insieme[j++];
                 cardinalita_intersezione++;
             }
-            i++;
         }
+        cardinalita_intersezione = intersezione(insieme_intersezione,
+                                                primo_insieme,
+                                                secondo_insieme,
+                                                cardinalita_primo_insieme,
+                                                cardinalita_secondo_insieme,
+                                                i,
+                                                j,
+                                                cardinalita_intersezione);
     }
     return cardinalita_intersezione;
 }
 
-/*int differenza_simmetrica(float *insieme_differenza_simmetrica,
+int differenza_simmetrica(float *insieme_differenza_simmetrica,
                           float primo_insieme[],
                           float secondo_insieme[],
                           int cardinalita_primo_insieme,
@@ -445,12 +459,16 @@ int intersezione(float *insieme_intersezione,
                                                 primo_insieme,
                                                 secondo_insieme,
                                                 cardinalita_primo_insieme,
-                                                cardinalita_secondo_insieme);
+                                                cardinalita_secondo_insieme,
+                                                0,
+                                                0);
     cardinalita_seconda_differenza = differenza(secondo_insieme_differenza,
                                                 secondo_insieme,
                                                 primo_insieme,
                                                 cardinalita_secondo_insieme,
-                                                cardinalita_primo_insieme);
+                                                cardinalita_primo_insieme,
+                                                0,
+                                                0);
     
     cardinalita_differenza_simmetrica = unione(insieme_differenza_simmetrica,
                                                primo_insieme_differenza,
@@ -459,7 +477,7 @@ int intersezione(float *insieme_intersezione,
                                                cardinalita_seconda_differenza);
     
     return cardinalita_differenza_simmetrica;
-}*/
+}
 
 bool cerca_in_insieme(float insieme[],
                       int cardinalita,
