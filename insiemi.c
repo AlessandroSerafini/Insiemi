@@ -9,6 +9,8 @@ struct Elemento
     struct Elemento *prossimo;
 };
 
+//TODO: ATTUALMENTE I METODI RICORSIVI FUNZIONANO SOLO CON LISTE ORDINATE: VA BENE?
+
 void acquisisci_cardinalita(int *cardinalita,
                             bool primo_insieme);
 
@@ -21,10 +23,8 @@ bool uguaglianza(struct Elemento *elemento_primo_insieme,
                  struct Elemento *elemento_secondo_insieme);
 
 struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
-                                      struct Elemento *elemento_secondo_insieme);
-
-struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
-                                      struct Elemento *elemento_secondo_insieme);
+                                      struct Elemento *elemento_secondo_insieme,
+                                      struct Elemento *ultimo_elemento_intersezione);
 
 void stampa_insieme(struct Elemento *elemento);
 
@@ -32,8 +32,7 @@ int main()
 {
     struct Elemento *testa_primo_insieme   = NULL,
                     *testa_secondo_insieme = NULL,
-                    *insieme_intersezione  = NULL,
-                    *insieme_differenza    = NULL;
+                    *insieme_intersezione  = NULL;
     int             cardinalita_primo_insieme,
                     cardinalita_secondo_insieme;
     acquisisci_cardinalita(&cardinalita_primo_insieme,
@@ -46,10 +45,8 @@ int main()
                         cardinalita_secondo_insieme);
     
     insieme_intersezione = calcola_intersezione(testa_primo_insieme,
-                                                testa_secondo_insieme);
-    
-    insieme_differenza = calcola_differenza(testa_primo_insieme,
-                                            testa_secondo_insieme);
+                                                testa_secondo_insieme,
+                                                insieme_intersezione);
     
     printf(uguaglianza(testa_primo_insieme,
                        testa_secondo_insieme) ?
@@ -58,9 +55,6 @@ int main()
     
     printf("\n[INTERSEZIONE]: ");
     stampa_insieme(insieme_intersezione);
-    
-    printf("\n[DIFFERENZA]: ");
-    stampa_insieme(insieme_differenza);
     
     
     return 0;
@@ -187,59 +181,39 @@ bool uguaglianza(struct Elemento *elemento_primo_insieme,
 }
 
 struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
-                                      struct Elemento *elemento_secondo_insieme)
+                                      struct Elemento *elemento_secondo_insieme,
+                                      struct Elemento *ultimo_elemento_intersezione)
 {
-    struct Elemento *elemento_intersezione = NULL;
+    struct Elemento *nuovo_elemento_intersezione = NULL;
     if (elemento_primo_insieme != NULL &&
         elemento_secondo_insieme != NULL)
     {
         if (elemento_primo_insieme->valore < elemento_secondo_insieme->valore)
         {
-            elemento_intersezione = calcola_intersezione(elemento_primo_insieme->prossimo,
-                                                         elemento_secondo_insieme);
+            nuovo_elemento_intersezione = calcola_intersezione(elemento_primo_insieme->prossimo,
+                                                               elemento_secondo_insieme,
+                                                               nuovo_elemento_intersezione);
         }
         else if (elemento_primo_insieme->valore > elemento_secondo_insieme->valore)
         {
-            elemento_intersezione = calcola_intersezione(elemento_primo_insieme,
-                                                         elemento_secondo_insieme->prossimo);
+            nuovo_elemento_intersezione = calcola_intersezione(elemento_primo_insieme,
+                                                               elemento_secondo_insieme->prossimo,
+                                                               nuovo_elemento_intersezione);
         }
         else
         {
-            elemento_intersezione = (struct Elemento *) malloc(sizeof(struct Elemento));
-            elemento_intersezione->valore   = elemento_primo_insieme->valore;
-            elemento_intersezione->prossimo = calcola_intersezione(elemento_primo_insieme->prossimo,
-                                                                   elemento_secondo_insieme->prossimo);
+            if (!ultimo_elemento_intersezione ||
+                ultimo_elemento_intersezione->valore != elemento_primo_insieme->valore)
+            {
+                nuovo_elemento_intersezione = (struct Elemento *) malloc(sizeof(struct Elemento));
+                nuovo_elemento_intersezione->valore   = elemento_primo_insieme->valore;
+                nuovo_elemento_intersezione->prossimo = calcola_intersezione(elemento_primo_insieme->prossimo,
+                                                                             elemento_secondo_insieme->prossimo,
+                                                                             nuovo_elemento_intersezione);
+            }
         }
     }
-    return elemento_intersezione;
-}
-
-struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
-                                      struct Elemento *elemento_secondo_insieme)
-{
-    struct Elemento *elemento_differenza = NULL;
-    if (elemento_primo_insieme != NULL &&
-        elemento_secondo_insieme != NULL)
-    {
-        if (elemento_primo_insieme->valore < elemento_secondo_insieme->valore)
-        {
-            elemento_differenza = calcola_differenza(elemento_primo_insieme->prossimo,
-                                                         elemento_secondo_insieme);
-        }
-        else if (elemento_primo_insieme->valore > elemento_secondo_insieme->valore)
-        {
-            elemento_differenza = calcola_differenza(elemento_primo_insieme,
-                                                         elemento_secondo_insieme->prossimo);
-        }
-        else
-        {
-            elemento_differenza = (struct Elemento *) malloc(sizeof(struct Elemento));
-            elemento_differenza->valore   = elemento_primo_insieme->valore;
-            elemento_differenza->prossimo = calcola_differenza(elemento_primo_insieme->prossimo,
-                                                                   elemento_secondo_insieme->prossimo);
-        }
-    }
-    return elemento_differenza;
+    return nuovo_elemento_intersezione;
 }
 
 
