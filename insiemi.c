@@ -26,13 +26,18 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
                                       struct Elemento *elemento_secondo_insieme,
                                       struct Elemento *ultimo_elemento_intersezione);
 
+struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
+                                    struct Elemento *elemento_secondo_insieme,
+                                    struct Elemento *ultimo_elemento_differenza);
+
 void stampa_insieme(struct Elemento *elemento);
 
 int main()
 {
     struct Elemento *testa_primo_insieme   = NULL,
                     *testa_secondo_insieme = NULL,
-                    *insieme_intersezione  = NULL;
+                    *insieme_intersezione  = NULL,
+                    *insieme_differenza    = NULL;
     int             cardinalita_primo_insieme,
                     cardinalita_secondo_insieme;
     acquisisci_cardinalita(&cardinalita_primo_insieme,
@@ -48,6 +53,10 @@ int main()
                                                 testa_secondo_insieme,
                                                 insieme_intersezione);
     
+    insieme_differenza = calcola_differenza(testa_primo_insieme,
+                                            testa_secondo_insieme,
+                                            insieme_differenza);
+    
     printf(uguaglianza(testa_primo_insieme,
                        testa_secondo_insieme) ?
            "\n[UGUAGLIANZA]: I due insiemi sono uguali" :
@@ -55,6 +64,9 @@ int main()
     
     printf("\n[INTERSEZIONE]: ");
     stampa_insieme(insieme_intersezione);
+    
+    printf("\n[DIFFERENZA]: ");
+    stampa_insieme(insieme_differenza);
     
     
     return 0;
@@ -200,20 +212,50 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
                                                                elemento_secondo_insieme->prossimo,
                                                                nuovo_elemento_intersezione);
         }
-        else
+        else if (!ultimo_elemento_intersezione ||
+                 ultimo_elemento_intersezione->valore != elemento_primo_insieme->valore)
         {
-            if (!ultimo_elemento_intersezione ||
-                ultimo_elemento_intersezione->valore != elemento_primo_insieme->valore)
-            {
-                nuovo_elemento_intersezione = (struct Elemento *) malloc(sizeof(struct Elemento));
-                nuovo_elemento_intersezione->valore   = elemento_primo_insieme->valore;
-                nuovo_elemento_intersezione->prossimo = calcola_intersezione(elemento_primo_insieme->prossimo,
-                                                                             elemento_secondo_insieme->prossimo,
-                                                                             nuovo_elemento_intersezione);
-            }
+            nuovo_elemento_intersezione = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento_intersezione->valore   = elemento_primo_insieme->valore;
+            nuovo_elemento_intersezione->prossimo = calcola_intersezione(elemento_primo_insieme->prossimo,
+                                                                         elemento_secondo_insieme->prossimo,
+                                                                         nuovo_elemento_intersezione);
         }
     }
     return nuovo_elemento_intersezione;
+}
+
+struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
+                                    struct Elemento *elemento_secondo_insieme,
+                                    struct Elemento *ultimo_elemento_differenza)
+{
+    struct Elemento *nuovo_elemento_differenza = NULL;
+    if (elemento_primo_insieme != NULL &&
+        elemento_secondo_insieme != NULL)
+    {
+        if (elemento_primo_insieme->valore > elemento_secondo_insieme->valore)
+        {
+            nuovo_elemento_differenza = calcola_differenza(elemento_primo_insieme,
+                                                           elemento_secondo_insieme->prossimo,
+                                                           ultimo_elemento_differenza);
+        }
+        else if (elemento_primo_insieme->valore == elemento_secondo_insieme->valore)
+        {
+            nuovo_elemento_differenza = calcola_differenza(elemento_primo_insieme->prossimo,
+                                                           elemento_secondo_insieme,
+                                                           ultimo_elemento_differenza);
+        }
+        else if (!ultimo_elemento_differenza ||
+                 ultimo_elemento_differenza->valore != elemento_primo_insieme->valore)
+        {
+            nuovo_elemento_differenza = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento_differenza->valore   = elemento_primo_insieme->valore;
+            nuovo_elemento_differenza->prossimo = calcola_differenza(elemento_primo_insieme->prossimo,
+                                                                       elemento_secondo_insieme,
+                                                                       nuovo_elemento_differenza);
+        }
+    }
+    return nuovo_elemento_differenza;
 }
 
 
