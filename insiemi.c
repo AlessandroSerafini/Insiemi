@@ -276,6 +276,25 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
                                                           nuovo_elemento);
         }
     }
+    else if (elemento_secondo_insieme == NULL &&
+             elemento_primo_insieme != NULL)
+    {
+        if (!ultimo_elemento_inserito ||
+            ultimo_elemento_inserito->valore != elemento_primo_insieme->valore)
+        {
+            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento->valore   = elemento_primo_insieme->valore;
+            nuovo_elemento->prossimo = calcola_differenza(elemento_primo_insieme->prossimo,
+                                                          elemento_secondo_insieme,
+                                                          nuovo_elemento);
+        }
+        else
+        {
+            nuovo_elemento = calcola_differenza(elemento_primo_insieme->prossimo,
+                                                elemento_secondo_insieme,
+                                                nuovo_elemento);
+        }
+    }
     return nuovo_elemento;
 }
 
