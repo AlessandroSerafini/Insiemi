@@ -14,6 +14,9 @@ void acquisisci_cardinalita(int *cardinalita,
 
 void libera_buffer();
 
+bool cerca_in_insieme(struct Elemento *elemento_corrente,
+                      float elemento_ricercato);
+
 void acquisisci_elementi(struct Elemento **testa,
                          int cardinalita);
 
@@ -74,8 +77,8 @@ int main()
                                 cardinalita_secondo_insieme,
                                 testa_primo_insieme,
                                 testa_secondo_insieme,
-                                testa_secondo_insieme) ?
-           "\n[UGUAGLIANZA]: I due insiemi sono uguali" :
+                                testa_secondo_insieme)?
+           "\n[UGUAGLIANZA]: I due insiemi sono uguali":
            "\n[UGUAGLIANZA]: I due insiemi sono diversi");
     
     printf("\n[INTERSEZIONE]: ");
@@ -110,8 +113,8 @@ void acquisisci_cardinalita(int *cardinalita,
     do
     {
         
-        printf(primo_insieme ?
-               "Inserisci la cardinalità del primo insieme:\n" :
+        printf(primo_insieme?
+               "Inserisci la cardinalità del primo insieme:\n":
                "Inserisci la cardinalità del secondo insieme:\n");
         
         esito_lettura = scanf("%d",
@@ -168,6 +171,7 @@ void acquisisci_elementi(struct Elemento **testa,
 {
     
     //TODO: rinominare in italiano e documentare "peek"
+    //TODO: aggiungere validazione sull'elemento gia inserito con messaggio specifico
     
     int   esito_lettura,
           peek,
@@ -184,12 +188,14 @@ void acquisisci_elementi(struct Elemento **testa,
                    i + 1);
             esito_lettura = scanf("%f",
                                   &valore_ingresso);
-            if (esito_lettura != 1 ||
-                ((peek    = getchar()) != EOF &&
-                 !isspace(peek)))
+            if (esito_lettura != 1)
             {
                 printf("[ERRORE]: L'input deve essere un numero reale!\n");
-                libera_buffer();
+            }
+            else if (cerca_in_insieme(*testa,
+                                      valore_ingresso))
+            {
+                printf("[ERRORE]: L'input è già stato acquisito precedentemente!\n");
             }
             else
             {
@@ -213,13 +219,17 @@ void acquisisci_elementi(struct Elemento **testa,
                 input_valido = true;
                 i++;
             }
+            if ((peek     = getchar()) != EOF &&
+                !isspace(peek))
+            {
+                libera_buffer();
+            }
         }
         while (!input_valido);
     }
     while (i < cardinalita);
 }
 
-//INFO: FUNZIONA ANCHE CON LISTE NON ORDINATE!
 bool verifica_uguaglianza(int cardinalita_primo_insieme,
                           int cardinalita_secondo_insieme,
                           struct Elemento *elemento_primo_insieme,
@@ -234,12 +244,12 @@ bool verifica_uguaglianza(int cardinalita_primo_insieme,
             risultato = false;
             if (elemento_secondo_insieme != NULL)
             {
-                risultato = elemento_primo_insieme->valore == elemento_secondo_insieme->valore ?
+                risultato = elemento_primo_insieme->valore == elemento_secondo_insieme->valore?
                             verifica_uguaglianza(cardinalita_primo_insieme,
                                                  cardinalita_secondo_insieme,
                                                  elemento_primo_insieme->prossimo,
                                                  testa_secondo_insieme,
-                                                 testa_secondo_insieme) :
+                                                 testa_secondo_insieme):
                             verifica_uguaglianza(cardinalita_primo_insieme,
                                                  cardinalita_secondo_insieme,
                                                  elemento_primo_insieme,
@@ -260,7 +270,6 @@ bool verifica_uguaglianza(int cardinalita_primo_insieme,
     return risultato;
 }
 
-//INFO: FUNZIONA ANCHE CON LISTE NON ORDINATE!
 struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
                                       struct Elemento *elemento_secondo_insieme,
                                       struct Elemento *testa_secondo_insieme)
@@ -272,7 +281,6 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
         {
             if (elemento_primo_insieme->valore == elemento_secondo_insieme->valore)
             {
-                //TODO: inserire l'elemento solo se non è già stato aggiunto
                 nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
                 nuovo_elemento->valore   = elemento_primo_insieme->valore;
                 nuovo_elemento->prossimo = calcola_intersezione(elemento_primo_insieme->prossimo,
@@ -296,7 +304,6 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
     return nuovo_elemento;
 }
 
-//INFO: FUNZIONA ANCHE CON LISTE NON ORDINATE!
 struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
                                     struct Elemento *elemento_secondo_insieme,
                                     struct Elemento *testa_secondo_insieme)
@@ -306,17 +313,16 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
     {
         if (elemento_secondo_insieme != NULL)
         {
-            nuovo_elemento = elemento_primo_insieme->valore == elemento_secondo_insieme->valore ?
+            nuovo_elemento = elemento_primo_insieme->valore == elemento_secondo_insieme->valore?
                              calcola_differenza(elemento_primo_insieme->prossimo,
                                                 testa_secondo_insieme,
-                                                testa_secondo_insieme) :
+                                                testa_secondo_insieme):
                              calcola_differenza(elemento_primo_insieme,
                                                 elemento_secondo_insieme->prossimo,
                                                 testa_secondo_insieme);
         }
         else
         {
-            //TODO: inserire l'elemento solo se non è già stato aggiunto
             nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
             nuovo_elemento->valore   = elemento_primo_insieme->valore;
             nuovo_elemento->prossimo = calcola_differenza(elemento_primo_insieme->prossimo,
@@ -435,4 +441,25 @@ void stampa_insieme(struct Elemento *elemento)
         elemento = elemento->prossimo;
     }
     printf("}");
+}
+
+bool cerca_in_insieme(struct Elemento *elemento_corrente,
+                      float elemento_ricercato)
+{
+    bool trovato;
+    if (elemento_corrente == NULL)
+    {
+        trovato = false;
+    }
+    else if (elemento_corrente->valore == elemento_ricercato)
+    {
+        trovato = true;
+    }
+    else
+    {
+        trovato = cerca_in_insieme(elemento_corrente->prossimo,
+                                   elemento_ricercato);
+    }
+    
+    return trovato;
 }
