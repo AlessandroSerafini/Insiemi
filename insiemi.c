@@ -12,7 +12,7 @@ struct Elemento
 void acquisisci_cardinalita(int *cardinalita,
                             bool primo_insieme);
 
-void libera_buffer();
+void libera_memoria();
 
 bool cerca_in_insieme(struct Elemento *elemento_corrente,
                       float elemento_ricercato);
@@ -52,6 +52,15 @@ int main()
                     *insieme_differenza_simmetrica = NULL;
     int             cardinalita_primo_insieme,
                     cardinalita_secondo_insieme;
+    
+    
+    printf("\n********************\nINSIEMI\n********************\n");
+    printf("\nQuesto software fa uso di una libreria esterna per effettuare operazioni sugli insiemi.");
+    printf("\nGli insiemi in questione sono due e accettano esclusivamente numeri reali ed unici.");
+    printf("\nLe operazioni effettuate sono le seguenti:");
+    printf("\n- Verifica uguaglianza\n- Intersezione\n- Differenza\n- Differenza simmetrica\n\n");
+    
+    
     acquisisci_cardinalita(&cardinalita_primo_insieme,
                            true);
     acquisisci_elementi(&testa_primo_insieme,
@@ -73,13 +82,19 @@ int main()
                                                                   testa_secondo_insieme,
                                                                   insieme_differenza_simmetrica);
     
+    printf("\n[PRIMO INSIEME]: ");
+    stampa_insieme(testa_primo_insieme);
+    
+    printf("\n[SECONDO INSIEME]: ");
+    stampa_insieme(testa_secondo_insieme);
+    
     printf(verifica_uguaglianza(cardinalita_primo_insieme,
                                 cardinalita_secondo_insieme,
                                 testa_primo_insieme,
                                 testa_secondo_insieme,
-                                testa_secondo_insieme)?
-           "\n[UGUAGLIANZA]: I due insiemi sono uguali":
-           "\n[UGUAGLIANZA]: I due insiemi sono diversi");
+                                testa_secondo_insieme) ?
+           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali" :
+           "\n\n[UGUAGLIANZA]: I due insiemi sono diversi");
     
     printf("\n[INTERSEZIONE]: ");
     stampa_insieme(insieme_intersezione);
@@ -94,7 +109,7 @@ int main()
     return 0;
 }
 
-void libera_buffer()
+void libera_memoria()
 {
     char c;
     while ((c = getchar()) != '\n' &&
@@ -106,35 +121,36 @@ void libera_buffer()
 void acquisisci_cardinalita(int *cardinalita,
                             bool primo_insieme)
 {
-    //TODO: rinominare in italiano e documentare "peek"
     int  esito_lettura,
-         peek;
-    bool input_valido = false;
+         carattere;
+    bool acquisizione_valida = false;
     do
     {
         
-        printf(primo_insieme?
-               "Inserisci la cardinalità del primo insieme:\n":
+        printf(primo_insieme ?
+               "Inserisci la cardinalità del primo insieme:\n" :
                "Inserisci la cardinalità del secondo insieme:\n");
         
         esito_lettura = scanf("%d",
                               cardinalita);
         
         if (esito_lettura != 1 ||
-            ((peek = getchar()) != EOF &&
-             !isspace(peek)) ||
             *cardinalita <= 0)
         {
             printf("[ERRORE]: L'input deve essere un numero intero maggiore di 0!\n");
-            libera_buffer();
         }
         else
         {
-            input_valido = true;
+            acquisizione_valida = true;
+        }
+        if ((carattere     = getchar()) != EOF &&
+            !isspace(carattere))
+        {
+            libera_memoria();
         }
         
     }
-    while (!input_valido);
+    while (!acquisizione_valida);
 }
 
 struct Elemento *ordina_lista(struct Elemento *elemento_primo_insieme,
@@ -170,14 +186,11 @@ void acquisisci_elementi(struct Elemento **testa,
                          int cardinalita)
 {
     
-    //TODO: rinominare in italiano e documentare "peek"
-    //TODO: aggiungere validazione sull'elemento gia inserito con messaggio specifico
-    
     int   esito_lettura,
-          peek,
+          carattere,
           i            = 0;
     float valore_ingresso;
-    bool  input_valido = false;
+    bool  acquisizione_valida = false;
     
     printf("Inserisci gli elementi dell'insieme (uno per riga):\n");
     do
@@ -188,6 +201,7 @@ void acquisisci_elementi(struct Elemento **testa,
                    i + 1);
             esito_lettura = scanf("%f",
                                   &valore_ingresso);
+            
             if (esito_lettura != 1)
             {
                 printf("[ERRORE]: L'input deve essere un numero reale!\n");
@@ -195,7 +209,7 @@ void acquisisci_elementi(struct Elemento **testa,
             else if (cerca_in_insieme(*testa,
                                       valore_ingresso))
             {
-                printf("[ERRORE]: L'input è già stato acquisito precedentemente!\n");
+                printf("[ERRORE]: Questo valore è già stato acquisito precedentemente!\n");
             }
             else
             {
@@ -216,16 +230,17 @@ void acquisisci_elementi(struct Elemento **testa,
                     }
                     ultimo->prossimo = nuovo_elemento;
                 }
-                input_valido = true;
+                acquisizione_valida = true;
                 i++;
             }
-            if ((peek     = getchar()) != EOF &&
-                !isspace(peek))
+            
+            if ((carattere = getchar()) != EOF &&
+                !isspace(carattere))
             {
-                libera_buffer();
+                libera_memoria();
             }
         }
-        while (!input_valido);
+        while (!acquisizione_valida);
     }
     while (i < cardinalita);
 }
@@ -244,12 +259,12 @@ bool verifica_uguaglianza(int cardinalita_primo_insieme,
             risultato = false;
             if (elemento_secondo_insieme != NULL)
             {
-                risultato = elemento_primo_insieme->valore == elemento_secondo_insieme->valore?
+                risultato = elemento_primo_insieme->valore == elemento_secondo_insieme->valore ?
                             verifica_uguaglianza(cardinalita_primo_insieme,
                                                  cardinalita_secondo_insieme,
                                                  elemento_primo_insieme->prossimo,
                                                  testa_secondo_insieme,
-                                                 testa_secondo_insieme):
+                                                 testa_secondo_insieme) :
                             verifica_uguaglianza(cardinalita_primo_insieme,
                                                  cardinalita_secondo_insieme,
                                                  elemento_primo_insieme,
@@ -313,10 +328,10 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
     {
         if (elemento_secondo_insieme != NULL)
         {
-            nuovo_elemento = elemento_primo_insieme->valore == elemento_secondo_insieme->valore?
+            nuovo_elemento = elemento_primo_insieme->valore == elemento_secondo_insieme->valore ?
                              calcola_differenza(elemento_primo_insieme->prossimo,
                                                 testa_secondo_insieme,
-                                                testa_secondo_insieme):
+                                                testa_secondo_insieme) :
                              calcola_differenza(elemento_primo_insieme,
                                                 elemento_secondo_insieme->prossimo,
                                                 testa_secondo_insieme);
@@ -432,7 +447,7 @@ void stampa_insieme(struct Elemento *elemento)
     printf("{");
     while (elemento != NULL)
     {
-        printf("%1.f",
+        printf("%.2f",
                elemento->valore);
         if (elemento->prossimo != NULL)
         {
