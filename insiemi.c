@@ -37,10 +37,6 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
                                     struct Elemento *elemento_secondo_insieme,
                                     struct Elemento *testa_secondo_insieme);
 
-struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_insieme,
-                                               struct Elemento *elemento_secondo_insieme,
-                                               struct Elemento *ultimo_elemento_inserito);
-
 void stampa_insieme(struct Elemento *elemento);
 
 int main()
@@ -48,8 +44,7 @@ int main()
     struct Elemento *testa_primo_insieme           = NULL,
                     *testa_secondo_insieme         = NULL,
                     *insieme_intersezione          = NULL,
-                    *insieme_differenza            = NULL,
-                    *insieme_differenza_simmetrica = NULL;
+                    *insieme_differenza            = NULL;
     int             cardinalita_primo_insieme,
                     cardinalita_secondo_insieme;
     
@@ -58,7 +53,7 @@ int main()
     printf("\nQuesto software fa uso di una libreria esterna per effettuare operazioni sugli insiemi.");
     printf("\nGli insiemi in questione sono due e accettano esclusivamente numeri reali ed unici.");
     printf("\nLe operazioni effettuate sono le seguenti:");
-    printf("\n- Verifica uguaglianza\n- Intersezione\n- Differenza\n- Differenza simmetrica\n\n");
+    printf("\n- Verifica uguaglianza\n- Intersezione\n- Differenza\n- Differenza simmesimmetrica\n\n");
     
     
     acquisisci_cardinalita(&cardinalita_primo_insieme,
@@ -78,10 +73,6 @@ int main()
                                             testa_secondo_insieme,
                                             testa_secondo_insieme);
     
-    insieme_differenza_simmetrica = calcola_differenza_simmetrica(testa_primo_insieme,
-                                                                  testa_secondo_insieme,
-                                                                  insieme_differenza_simmetrica);
-    
     printf("\n[PRIMO INSIEME]: ");
     stampa_insieme(testa_primo_insieme);
     
@@ -92,8 +83,8 @@ int main()
                                 cardinalita_secondo_insieme,
                                 testa_primo_insieme,
                                 testa_secondo_insieme,
-                                testa_secondo_insieme) ?
-           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali" :
+                                testa_secondo_insieme)?
+           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali":
            "\n\n[UGUAGLIANZA]: I due insiemi sono diversi");
     
     printf("\n[INTERSEZIONE]: ");
@@ -101,9 +92,6 @@ int main()
     
     printf("\n[DIFFERENZA]: ");
     stampa_insieme(insieme_differenza);
-    
-    printf("\n[DIFFERENZA SIMMETRICA]: ");
-    stampa_insieme(insieme_differenza_simmetrica);
     
     
     return 0;
@@ -127,12 +115,12 @@ void acquisisci_cardinalita(int *cardinalita,
     do
     {
         
-        printf(primo_insieme ?
-               "Inserisci la cardinalità del primo insieme:\n" :
+        printf(primo_insieme?
+               "Inserisci la cardinalità del primo insieme:\n":
                "Inserisci la cardinalità del secondo insieme:\n");
         
-        esito_lettura = scanf("%d",
-                              cardinalita);
+        esito_lettura  = scanf("%d",
+                               cardinalita);
         
         if (esito_lettura != 1 ||
             *cardinalita <= 0)
@@ -143,7 +131,7 @@ void acquisisci_cardinalita(int *cardinalita,
         {
             acquisizione_valida = true;
         }
-        if ((carattere     = getchar()) != EOF &&
+        if ((carattere = getchar()) != EOF &&
             !isspace(carattere))
         {
             libera_memoria();
@@ -153,6 +141,7 @@ void acquisisci_cardinalita(int *cardinalita,
     while (!acquisizione_valida);
 }
 
+//TODO: togliere i return dal codice
 struct Elemento *ordina_lista(struct Elemento *elemento_primo_insieme,
                               struct Elemento *elemento_secondo_insieme)
 {
@@ -188,7 +177,7 @@ void acquisisci_elementi(struct Elemento **testa,
     
     int   esito_lettura,
           carattere,
-          i            = 0;
+          i                   = 0;
     float valore_ingresso;
     bool  acquisizione_valida = false;
     
@@ -259,12 +248,12 @@ bool verifica_uguaglianza(int cardinalita_primo_insieme,
             risultato = false;
             if (elemento_secondo_insieme != NULL)
             {
-                risultato = elemento_primo_insieme->valore == elemento_secondo_insieme->valore ?
+                risultato = elemento_primo_insieme->valore == elemento_secondo_insieme->valore?
                             verifica_uguaglianza(cardinalita_primo_insieme,
                                                  cardinalita_secondo_insieme,
                                                  elemento_primo_insieme->prossimo,
                                                  testa_secondo_insieme,
-                                                 testa_secondo_insieme) :
+                                                 testa_secondo_insieme):
                             verifica_uguaglianza(cardinalita_primo_insieme,
                                                  cardinalita_secondo_insieme,
                                                  elemento_primo_insieme,
@@ -282,7 +271,7 @@ bool verifica_uguaglianza(int cardinalita_primo_insieme,
         risultato = false;
     }
     
-    return risultato;
+    return (risultato);
 }
 
 struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
@@ -316,7 +305,7 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
                                                   testa_secondo_insieme);
         }
     }
-    return nuovo_elemento;
+    return (nuovo_elemento);
 }
 
 struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
@@ -328,10 +317,10 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
     {
         if (elemento_secondo_insieme != NULL)
         {
-            nuovo_elemento = elemento_primo_insieme->valore == elemento_secondo_insieme->valore ?
+            nuovo_elemento = elemento_primo_insieme->valore == elemento_secondo_insieme->valore?
                              calcola_differenza(elemento_primo_insieme->prossimo,
                                                 testa_secondo_insieme,
-                                                testa_secondo_insieme) :
+                                                testa_secondo_insieme):
                              calcola_differenza(elemento_primo_insieme,
                                                 elemento_secondo_insieme->prossimo,
                                                 testa_secondo_insieme);
@@ -345,100 +334,7 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
                                                           testa_secondo_insieme);
         }
     }
-    return nuovo_elemento;
-}
-
-//TODO: FARLO FUNZIONARE ANCHE CON LISTE NON ORDINATE
-struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_insieme,
-                                               struct Elemento *elemento_secondo_insieme,
-                                               struct Elemento *ultimo_elemento_inserito)
-{
-    struct Elemento *nuovo_elemento = NULL;
-    if (elemento_primo_insieme != NULL &&
-        elemento_secondo_insieme != NULL)
-    {
-        if (elemento_primo_insieme->valore > elemento_secondo_insieme->valore)
-        {
-            if (!ultimo_elemento_inserito ||
-                ultimo_elemento_inserito->valore != elemento_secondo_insieme->valore)
-            {
-                nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
-                nuovo_elemento->valore   = elemento_secondo_insieme->valore;
-                nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme,
-                                                                         elemento_secondo_insieme->prossimo,
-                                                                         nuovo_elemento);
-            }
-            else
-            {
-                nuovo_elemento = calcola_differenza_simmetrica(elemento_primo_insieme,
-                                                               elemento_secondo_insieme->prossimo,
-                                                               nuovo_elemento);
-            }
-        }
-        else if (elemento_primo_insieme->valore < elemento_secondo_insieme->valore)
-        {
-            if (!ultimo_elemento_inserito ||
-                ultimo_elemento_inserito->valore != elemento_primo_insieme->valore)
-            {
-                nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
-                nuovo_elemento->valore   = elemento_primo_insieme->valore;
-                nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
-                                                                         elemento_secondo_insieme,
-                                                                         nuovo_elemento);
-            }
-            else
-            {
-                nuovo_elemento = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
-                                                               elemento_secondo_insieme,
-                                                               nuovo_elemento);
-            }
-        }
-        else if (elemento_primo_insieme->valore == elemento_secondo_insieme->valore)
-        {
-            nuovo_elemento = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
-                                                           elemento_secondo_insieme->prossimo,
-                                                           ultimo_elemento_inserito);
-        }
-    }
-    else if (elemento_primo_insieme == NULL &&
-             elemento_secondo_insieme != NULL)
-    {
-        if (!ultimo_elemento_inserito ||
-            ultimo_elemento_inserito->valore != elemento_secondo_insieme->valore)
-        {
-            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
-            nuovo_elemento->valore   = elemento_secondo_insieme->valore;
-            nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme,
-                                                                     elemento_secondo_insieme->prossimo,
-                                                                     nuovo_elemento);
-        }
-        else
-        {
-            nuovo_elemento = calcola_differenza_simmetrica(elemento_primo_insieme,
-                                                           elemento_secondo_insieme->prossimo,
-                                                           nuovo_elemento);
-        }
-    }
-    else if (elemento_secondo_insieme == NULL &&
-             elemento_primo_insieme != NULL)
-    {
-        if (!ultimo_elemento_inserito ||
-            ultimo_elemento_inserito->valore != elemento_primo_insieme->valore)
-        {
-            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
-            nuovo_elemento->valore   = elemento_primo_insieme->valore;
-            nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
-                                                                     elemento_secondo_insieme,
-                                                                     nuovo_elemento);
-        }
-        else
-        {
-            nuovo_elemento = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
-                                                           elemento_secondo_insieme,
-                                                           nuovo_elemento);
-        }
-    }
-    return nuovo_elemento;
+    return (nuovo_elemento);
 }
 
 
@@ -476,5 +372,5 @@ bool cerca_in_insieme(struct Elemento *elemento_corrente,
                                    elemento_ricercato);
     }
     
-    return trovato;
+    return (trovato);
 }
