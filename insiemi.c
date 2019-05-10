@@ -20,6 +20,9 @@ bool cerca_in_insieme(struct Elemento *elemento_corrente,
 void acquisisci_elementi(struct Elemento **testa,
                          int cardinalita);
 
+void inserisci_acquisizione(struct Elemento **testa,
+                            struct Elemento *elemento_acquisito);
+
 bool verifica_uguaglianza(struct Elemento *elemento_primo_insieme,
                           struct Elemento *elemento_secondo_insieme);
 
@@ -69,12 +72,6 @@ int main()
     
     insieme_differenza_simmetrica = calcola_differenza_simmetrica(testa_primo_insieme,
                                                                   testa_secondo_insieme);
-    
-    printf("\n[PRIMO INSIEME]: ");
-    stampa_insieme(testa_primo_insieme);
-    
-    printf("\n[SECONDO INSIEME]: ");
-    stampa_insieme(testa_secondo_insieme);
     
     printf(verifica_uguaglianza(testa_primo_insieme,
                                 testa_secondo_insieme) ?
@@ -170,22 +167,10 @@ void acquisisci_elementi(struct Elemento **testa,
             else
             {
                 struct Elemento *nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
-                struct Elemento *ultimo         = *testa;
                 nuovo_elemento->valore   = valore_ingresso;
                 nuovo_elemento->prossimo = NULL;
-                
-                if (*testa == NULL)
-                {
-                    *testa = nuovo_elemento;
-                }
-                else
-                {
-                    while (ultimo->prossimo != NULL)
-                    {
-                        ultimo = ultimo->prossimo;
-                    }
-                    ultimo->prossimo = nuovo_elemento;
-                }
+                inserisci_acquisizione(testa,
+                                       nuovo_elemento);
                 acquisizione_valida = true;
                 i++;
             }
@@ -199,6 +184,29 @@ void acquisisci_elementi(struct Elemento **testa,
         while (!acquisizione_valida);
     }
     while (i < cardinalita);
+}
+
+void inserisci_acquisizione(struct Elemento **testa,
+                            struct Elemento *elemento_acquisito)
+{
+    struct Elemento *elemento_corrente;
+    if (*testa == NULL ||
+    (*testa)->valore > elemento_acquisito->valore)
+    {
+        elemento_acquisito->prossimo = *testa;
+        *testa = elemento_acquisito;
+    }
+    else
+    {
+        elemento_corrente = *testa;
+        while (elemento_corrente->prossimo != NULL &&
+               elemento_corrente->prossimo->valore < elemento_acquisito->valore)
+        {
+            elemento_corrente = elemento_corrente->prossimo;
+        }
+        elemento_acquisito->prossimo = elemento_corrente->prossimo;
+        elemento_corrente->prossimo  = elemento_acquisito;
+    }
 }
 
 bool verifica_uguaglianza(struct Elemento *elemento_primo_insieme,
