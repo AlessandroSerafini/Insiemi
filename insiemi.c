@@ -358,7 +358,7 @@ void stampa_insieme(struct Elemento *elemento)
     printf("{");
     while (elemento != NULL)
     {
-        printf("%.2f",
+        printf("%lf",
                elemento->valore);
         if (elemento->prossimo != NULL)
         {
