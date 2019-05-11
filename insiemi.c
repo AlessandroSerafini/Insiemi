@@ -3,49 +3,50 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-struct Elemento
+
+typedef struct elemento_insieme
 {
-    float           valore;
-    struct Elemento *prossimo;
-};
+    float                   valore;
+    struct elemento_insieme *prossimo;
+} elemento_insieme_t;
 
 void acquisisci_cardinalita(int *cardinalita,
                             bool primo_insieme);
 
 void libera_memoria();
 
-bool cerca_in_insieme(struct Elemento *elemento_corrente,
+bool cerca_in_insieme(elemento_insieme_t *elemento_corrente,
                       float elemento_ricercato);
 
-void acquisisci_elementi(struct Elemento **testa,
+void acquisisci_elementi(elemento_insieme_t **testa,
                          int cardinalita);
 
-void inserisci_acquisizione(struct Elemento **testa,
-                            struct Elemento *elemento_acquisito);
+void inserisci_acquisizione(elemento_insieme_t **testa,
+                            elemento_insieme_t *elemento_acquisito);
 
-bool verifica_uguaglianza(struct Elemento *elemento_primo_insieme,
-                          struct Elemento *elemento_secondo_insieme);
+bool verifica_uguaglianza(elemento_insieme_t *elemento_primo_insieme,
+                          elemento_insieme_t *elemento_secondo_insieme);
 
-struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
-                                      struct Elemento *elemento_secondo_insieme);
+elemento_insieme_t *calcola_intersezione(elemento_insieme_t *elemento_primo_insieme,
+                                         elemento_insieme_t *elemento_secondo_insieme);
 
-struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
-                                    struct Elemento *elemento_secondo_insieme);
+elemento_insieme_t *calcola_differenza(elemento_insieme_t *elemento_primo_insieme,
+                                       elemento_insieme_t *elemento_secondo_insieme);
 
-struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_insieme,
-                                               struct Elemento *elemento_secondo_insieme);
+elemento_insieme_t *calcola_differenza_simmetrica(elemento_insieme_t *elemento_primo_insieme,
+                                                  elemento_insieme_t *elemento_secondo_insieme);
 
-void stampa_insieme(struct Elemento *elemento);
+void stampa_insieme(elemento_insieme_t *elemento);
 
 int main()
 {
-    struct Elemento *testa_primo_insieme           = NULL,
-                    *testa_secondo_insieme         = NULL,
-                    *insieme_intersezione          = NULL,
-                    *insieme_differenza            = NULL,
-                    *insieme_differenza_simmetrica = NULL;
-    int             cardinalita_primo_insieme,
-                    cardinalita_secondo_insieme;
+    elemento_insieme_t *testa_primo_insieme           = NULL,
+                       *testa_secondo_insieme         = NULL,
+                       *insieme_intersezione          = NULL,
+                       *insieme_differenza            = NULL,
+                       *insieme_differenza_simmetrica = NULL;
+    int                cardinalita_primo_insieme,
+                       cardinalita_secondo_insieme;
     
     
     printf("\n********************\nINSIEMI\n********************\n");
@@ -135,7 +136,7 @@ void acquisisci_cardinalita(int *cardinalita,
     while (!acquisizione_valida);
 }
 
-void acquisisci_elementi(struct Elemento **testa,
+void acquisisci_elementi(elemento_insieme_t **testa,
                          int cardinalita)
 {
     
@@ -166,7 +167,7 @@ void acquisisci_elementi(struct Elemento **testa,
             }
             else
             {
-                struct Elemento *nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+                elemento_insieme_t *nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
                 nuovo_elemento->valore   = valore_ingresso;
                 nuovo_elemento->prossimo = NULL;
                 inserisci_acquisizione(testa,
@@ -186,12 +187,12 @@ void acquisisci_elementi(struct Elemento **testa,
     while (i < cardinalita);
 }
 
-void inserisci_acquisizione(struct Elemento **testa,
-                            struct Elemento *elemento_acquisito)
+void inserisci_acquisizione(elemento_insieme_t **testa,
+                            elemento_insieme_t *elemento_acquisito)
 {
-    struct Elemento *elemento_corrente;
+    elemento_insieme_t *elemento_corrente;
     if (*testa == NULL ||
-    (*testa)->valore > elemento_acquisito->valore)
+        (*testa)->valore > elemento_acquisito->valore)
     {
         elemento_acquisito->prossimo = *testa;
         *testa = elemento_acquisito;
@@ -209,8 +210,8 @@ void inserisci_acquisizione(struct Elemento **testa,
     }
 }
 
-bool verifica_uguaglianza(struct Elemento *elemento_primo_insieme,
-                          struct Elemento *elemento_secondo_insieme)
+bool verifica_uguaglianza(elemento_insieme_t *elemento_primo_insieme,
+                          elemento_insieme_t *elemento_secondo_insieme)
 {
     bool risultato = true;
     if (elemento_primo_insieme != NULL)
@@ -240,10 +241,10 @@ bool verifica_uguaglianza(struct Elemento *elemento_primo_insieme,
     return (risultato);
 }
 
-struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
-                                      struct Elemento *elemento_secondo_insieme)
+elemento_insieme_t *calcola_intersezione(elemento_insieme_t *elemento_primo_insieme,
+                                         elemento_insieme_t *elemento_secondo_insieme)
 {
-    struct Elemento *nuovo_elemento = NULL;
+    elemento_insieme_t *nuovo_elemento = NULL;
     if (elemento_primo_insieme != NULL &&
         elemento_secondo_insieme != NULL)
     {
@@ -259,7 +260,7 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
         }
         else
         {
-            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
             nuovo_elemento->valore   = elemento_primo_insieme->valore;
             nuovo_elemento->prossimo = calcola_intersezione(elemento_primo_insieme->prossimo,
                                                             elemento_secondo_insieme->prossimo);
@@ -268,17 +269,17 @@ struct Elemento *calcola_intersezione(struct Elemento *elemento_primo_insieme,
     return (nuovo_elemento);
 }
 
-struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
-                                    struct Elemento *elemento_secondo_insieme)
+elemento_insieme_t *calcola_differenza(elemento_insieme_t *elemento_primo_insieme,
+                                       elemento_insieme_t *elemento_secondo_insieme)
 {
-    struct Elemento *nuovo_elemento = NULL;
+    elemento_insieme_t *nuovo_elemento = NULL;
     if (elemento_primo_insieme != NULL)
     {
         if (elemento_secondo_insieme != NULL)
         {
             if (elemento_primo_insieme->valore < elemento_secondo_insieme->valore)
             {
-                nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+                nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
                 nuovo_elemento->valore   = elemento_primo_insieme->valore;
                 nuovo_elemento->prossimo = calcola_differenza(elemento_primo_insieme->prossimo,
                                                               elemento_secondo_insieme);
@@ -296,7 +297,7 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
         }
         else
         {
-            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
             nuovo_elemento->valore   = elemento_primo_insieme->valore;
             nuovo_elemento->prossimo = calcola_differenza(elemento_primo_insieme->prossimo,
                                                           elemento_secondo_insieme);
@@ -305,23 +306,23 @@ struct Elemento *calcola_differenza(struct Elemento *elemento_primo_insieme,
     return (nuovo_elemento);
 }
 
-struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_insieme,
-                                               struct Elemento *elemento_secondo_insieme)
+elemento_insieme_t *calcola_differenza_simmetrica(elemento_insieme_t *elemento_primo_insieme,
+                                                  elemento_insieme_t *elemento_secondo_insieme)
 {
-    struct Elemento *nuovo_elemento = NULL;
+    elemento_insieme_t *nuovo_elemento = NULL;
     if (elemento_primo_insieme != NULL &&
         elemento_secondo_insieme != NULL)
     {
         if (elemento_primo_insieme->valore < elemento_secondo_insieme->valore)
         {
-            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
             nuovo_elemento->valore   = elemento_primo_insieme->valore;
             nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
                                                                      elemento_secondo_insieme);
         }
         else if (elemento_primo_insieme->valore > elemento_secondo_insieme->valore)
         {
-            nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+            nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
             nuovo_elemento->valore   = elemento_secondo_insieme->valore;
             nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme,
                                                                      elemento_secondo_insieme->prossimo);
@@ -335,7 +336,7 @@ struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_i
     else if (elemento_primo_insieme != NULL &&
              elemento_secondo_insieme == NULL)
     {
-        nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+        nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
         nuovo_elemento->valore   = elemento_primo_insieme->valore;
         nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme->prossimo,
                                                                  elemento_secondo_insieme);
@@ -344,7 +345,7 @@ struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_i
     else if (elemento_primo_insieme == NULL &&
              elemento_secondo_insieme != NULL)
     {
-        nuovo_elemento = (struct Elemento *) malloc(sizeof(struct Elemento));
+        nuovo_elemento = (elemento_insieme_t *) malloc(sizeof(elemento_insieme_t));
         nuovo_elemento->valore   = elemento_secondo_insieme->valore;
         nuovo_elemento->prossimo = calcola_differenza_simmetrica(elemento_primo_insieme,
                                                                  elemento_secondo_insieme->prossimo);
@@ -353,7 +354,7 @@ struct Elemento *calcola_differenza_simmetrica(struct Elemento *elemento_primo_i
 }
 
 
-void stampa_insieme(struct Elemento *elemento)
+void stampa_insieme(elemento_insieme_t *elemento)
 {
     printf("{");
     while (elemento != NULL)
@@ -369,7 +370,7 @@ void stampa_insieme(struct Elemento *elemento)
     printf("}");
 }
 
-bool cerca_in_insieme(struct Elemento *elemento_corrente,
+bool cerca_in_insieme(elemento_insieme_t *elemento_corrente,
                       float elemento_ricercato)
 {
     bool trovato;
