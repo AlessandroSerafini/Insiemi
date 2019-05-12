@@ -5,6 +5,7 @@
 *.doc
 *.docx
 *.pdf
+*.o
 cmake-build-debug
 .DS_Store
 .idea
