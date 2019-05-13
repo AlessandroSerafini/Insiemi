@@ -36,8 +36,8 @@ void libera_buffer();
  * di un insieme e restituisce l'esito della ricerca. */
 bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
                                                   * della lista*/
-                      float el_ricercato); /* Valore da ricercare
-                                            * nell'insieme*/
+                      float el_ricercato);       /* Valore da ricercare
+                                                  * nell'insieme*/
 
 /* Dichiarazione della funzione che acquisisce gli elementi
  * dell'insieme a seguito di apposita validazione. Se il valore
@@ -45,15 +45,15 @@ bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
  * precedentemente acquisito), l'acquisizione viene ripetuta. */
 void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
                                                 * della lista */
-                         int cardinalita); /* Cardinalità
-                                            * dell'insieme*/
+                         int cardinalita);     /* Cardinalità
+                                                * dell'insieme*/
 
 /* Dichiarazione della funzione che inserisce all'interno della
  * lista un elemento già sottoposto a validazione. L'elemento
  * viene inserito nella posizione consona (in ordine ascendente)
  * a seconda del proprio valore. */
-void inserisci_acquisizione(el_insieme_t **testa, /* Elemento testa
-                                                   * dell'insieme */
+void inserisci_acquisizione(el_insieme_t **testa,        /* Elemento testa
+                                                          * dell'insieme */
                             el_insieme_t *el_acquisito); /* Elemento
                                                           * da inserire */
 
@@ -70,10 +70,10 @@ void stampa_insieme(el_insieme_t *elemento);
 int main()
 {
     /* Dichiarazione delle variabili locali alla funzione */
-    int          cardinalita_primo_insieme, /* Input: cardinalità
-                                             * del primo insieme */
-                 cardinalita_secondo_insieme; /* Input: cardinalità
-                                               * del secondo insieme */
+    int          cardinalita_primo_insieme,     /* Input: cardinalità
+                                                 * del primo insieme */
+                 cardinalita_secondo_insieme;   /* Input: cardinalità
+                                                 * del secondo insieme */
     el_insieme_t *testa_primo_insieme   = NULL, /* Lavoro: elemento testa
                                                  * del primo insieme */
                  *testa_secondo_insieme = NULL, /* Lavoro: elemento testa
@@ -160,27 +160,41 @@ int main()
  * nella quale scrivere il valore. */
 void acquisisci_cardinalita(int *cardinalita)
 {
-    int  esito_lettura,
-         carattere;
-    bool acquisizione_valida = false;
+    /* Dichiarazione delle variabili locali alla funzione */
+    int  esito_lettura,               /* Lavoro: numero di valori
+                                       * inseriti nell'acquisizione */
+         carattere;                   /* Lavoro: carattere utile per
+                                       * liberare il buffer */
+    bool acquisizione_valida = false; /* Lavoro: Valore che stabilisce
+                                       * se l'input inserito è corretto */
+    
     do
     {
-        
+        /* Comunicazione all'utente per l'inserimento
+         * della cardinalità dell'insieme */
         printf("Inserisci la cardinalità dell'insieme:\n");
         
+        /* Acquisizione del valore */
         esito_lettura  = scanf("%d",
                                cardinalita);
         
+        /* Validazione del valore come descritto in fase di definizione
+         * della funzione. Nel caso in cui il valore non sia valido,
+         * l'acquisizione viene nuovamente richiesta. */
         if (esito_lettura != 1 ||
             *cardinalita <= 0)
         {
+            /* Comunicazione all'utente dell'errore in fase di acquisizione
+             * e specifica del formato corretto */
             printf("[ERRORE]: L'input deve essere un numero ");
             printf("intero maggiore di 0!\n");
         }
         else
         {
+            /* Acquisizione valida: impostazione del relativo valore */
             acquisizione_valida = true;
         }
+        /* Liberazione del buffer */
         if ((carattere = getchar()) != EOF &&
             !isspace(carattere))
         {
@@ -195,7 +209,7 @@ void acquisisci_cardinalita(int *cardinalita)
 void libera_buffer()
 {
     /* Dichiarazione variabili locali */
-    char c; /* Lavoro: variabile utile a svuotare il buffer */
+    char c; /* Lavoro: carattere utile a svuotare il buffer */
     
     while ((c = getchar()) != '\n' &&
            c != EOF);
@@ -205,24 +219,32 @@ void libera_buffer()
  * di un insieme e restituisce l'esito della ricerca. */
 bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
                                                   * della lista*/
-                      float el_ricercato) /* Valore da ricercare
-                                            * nell'insieme*/
+                      float el_ricercato)        /* Valore da ricercare
+                                                  * nell'insieme*/
 {
-    bool trovato;
+    /* Dichiarazione delle variabili locali alla funzione */
+    bool trovato; /* Output: risultato della ricerca dell'elemento */
+    
     if (el_corrente == NULL)
     {
+        /* Se l'elemento non è stato trovato imposto
+         * il valore di ritorno di conseguenza. */
         trovato = false;
     }
     else if (el_corrente->valore == el_ricercato)
     {
+        /* Se l'elemento è stato trovato imposto
+         * il valore di ritorno di conseguenza. */
         trovato = true;
     }
     else
     {
+        /* Altrimenti ripeto la ricerca all'elemento successivo */
         trovato = cerca_in_insieme(el_corrente->prossimo,
                                    el_ricercato);
     }
     
+    /* Restituisco l'esito della ricerca */
     return (trovato);
 }
 
@@ -232,26 +254,40 @@ bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
  * precedentemente acquisito), l'acquisizione viene ripetuta. */
 void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
                                                 * della lista */
-                         int cardinalita) /* Cardinalità
-                                            * dell'insieme*/
+                         int cardinalita)      /* Cardinalità
+                                                * dell'insieme*/
 {
+    /* Dichiarazione delle variabili locali alla funzione */
+    int   esito_lettura,               /* Lavoro: numero di valori
+                                        * inseriti nell'acquisizione */
+          carattere,                   /* Lavoro: carattere utile per
+                                        * liberare il buffer */
+          i                   = 0;     /* Lavoro: indice della
+                                        * cardinalità dell'insieme */
+    float valore_ingresso;             /* Lavoro: Valore nel quale
+                                        * scrivere l'acquisizione */
+    bool  acquisizione_valida = false; /* Lavoro: Valore che stabilisce
+                                        * se l'input inserito è corretto */
     
-    int   esito_lettura,
-          carattere,
-          i                   = 0;
-    float valore_ingresso;
-    bool  acquisizione_valida = false;
-    
+    /* Comunicazione all'utente per l'inserimento
+     * degli elementi dell'insieme */
     printf("Inserisci gli elementi dell'insieme (uno per riga):\n");
     do
     {
         do
         {
+            /* Comunicazione all'utente per l'inserimento
+             * dello specifico elemento */
             printf("Inserisci l'elemento %d\n",
                    i + 1);
+            
+            /* Acquisizione del valore */
             esito_lettura = scanf("%f",
                                   &valore_ingresso);
-            
+    
+            /* Validazione del valore come descritto in fase di definizione
+             * della funzione. Nel caso in cui il valore non sia valido,
+             * l'acquisizione viene nuovamente richiesta. */
             if (esito_lettura != 1)
             {
                 printf("[ERRORE]: L'input deve essere ");
@@ -265,6 +301,8 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
             }
             else
             {
+                /* Validazione superata: inserimento dell'elemento
+                 * nella consona posizione all'interno della lista */
                 el_insieme_t *nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
                 nuovo_el->valore   = valore_ingresso;
                 nuovo_el->prossimo = NULL;
@@ -274,6 +312,7 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
                 i++;
             }
             
+            /* Eventuale liberazione del buffer */
             if ((carattere = getchar()) != EOF &&
                 !isspace(carattere))
             {
@@ -289,20 +328,26 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
  * lista un elemento già sottoposto a validazione. L'elemento
  * viene inserito nella posizione consona (in ordine ascendente)
  * a seconda del proprio valore. */
-void inserisci_acquisizione(el_insieme_t **testa, /* Elemento testa
-                                                   * dell'insieme */
+void inserisci_acquisizione(el_insieme_t **testa,       /* Elemento testa
+                                                         * dell'insieme */
                             el_insieme_t *el_acquisito) /* Elemento
-                                                          * da inserire */
+                                                         * da inserire */
 {
-    el_insieme_t *el_corrente;
+    /* Dichiarazione delle variabili locali alla funzione */
+    el_insieme_t *el_corrente; /* Lavoro: elemento iterato dell'insieme */
+    
     if (*testa == NULL ||
         (*testa)->valore > el_acquisito->valore)
     {
+        /* Inserimento dell'elemento in testa in caso di lista vuota
+         * o valore minore del primo elemento. */
         el_acquisito->prossimo = *testa;
         *testa = el_acquisito;
     }
     else
     {
+        /* Inserimento dell'elemento nella posizione
+         * consona in base al valore */
         el_corrente = *testa;
         while (el_corrente->prossimo != NULL &&
                el_corrente->prossimo->valore < el_acquisito->valore)
@@ -322,6 +367,7 @@ void stampa_insieme(el_insieme_t *elemento)
     printf("{");
     while (elemento != NULL)
     {
+        /* Stampa di ogni elemento dell'insieme separato da virgola */
         printf("%lf",
                elemento->valore);
         if (elemento->prossimo != NULL)
