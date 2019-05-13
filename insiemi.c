@@ -35,7 +35,7 @@ void libera_buffer();
 /* Dichiarazione della funzione che cerca un elemento all'interno
  * di un insieme e restituisce l'esito della ricerca. */
 bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
-                                                  * della lista*/
+                                                  * dell'insieme */
                       float el_ricercato);       /* Valore da ricercare
                                                   * nell'insieme*/
 
@@ -44,12 +44,12 @@ bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
  * inserito non rispetta il formato (numero reale e non
  * precedentemente acquisito), l'acquisizione viene ripetuta. */
 void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
-                                                * della lista */
+                                                * dell'insieme */
                          int cardinalita);     /* Cardinalità
                                                 * dell'insieme*/
 
-/* Dichiarazione della funzione che inserisce all'interno della
- * lista un elemento già sottoposto a validazione. L'elemento
+/* Dichiarazione della funzione che inserisce all'interno dell'insieme
+ * un elemento già sottoposto a validazione. L'elemento
  * viene inserito nella posizione consona (in ordine ascendente)
  * a seconda del proprio valore. */
 void inserisci_acquisizione(el_insieme_t **testa,        /* Elemento testa
@@ -98,17 +98,17 @@ int main()
     printf("\n- Verifica uguaglianza\n- Intersezione\n");
     printf("- Differenza\n- Differenza simmetrica\n\n");
     
-    /* Acquisizione della cardinalità del primo isieme */
+    /* Acquisizione della cardinalità del primo insieme */
     acquisisci_cardinalita(&cardinalita_primo_insieme);
     
-    /* Acquisizione degli elementi del primo isieme */
+    /* Acquisizione degli elementi del primo insieme */
     acquisisci_elementi(&testa_primo_insieme,
                         cardinalita_primo_insieme);
     
-    /* Acquisizione della cardinalità del secondo isieme */
+    /* Acquisizione della cardinalità del secondo insieme */
     acquisisci_cardinalita(&cardinalita_secondo_insieme);
     
-    /* Acquisizione degli elementi del secondo isieme */
+    /* Acquisizione degli elementi del secondo insieme */
     acquisisci_elementi(&testa_secondo_insieme,
                         cardinalita_secondo_insieme);
     
@@ -128,24 +128,24 @@ int main()
                                           testa_secondo_insieme);
     
     /* Comunicazione dell'esito del controllo sull'uguaglianza
-     * fra gli insiemi insieriti */
+     * fra gli insiemi inseriti */
     printf(verifica_uguaglianza(testa_primo_insieme,
                                 testa_secondo_insieme) ?
            "\n\n[UGUAGLIANZA]: I due insiemi sono uguali" :
            "\n\n[UGUAGLIANZA]: I due insiemi sono diversi");
     
     /* Comunicazione dell'esito del calcolo dell'intersezione
-     * fra gli insiemi insieriti */
+     * fra gli insiemi inseriti */
     printf("\n[INTERSEZIONE]: ");
     stampa_insieme(insieme_intersezione);
     
     /* Comunicazione dell'esito del calcolo della
-     * differenza fra gli insiemi insieriti */
+     * differenza fra gli insiemi inseriti */
     printf("\n[DIFFERENZA]: ");
     stampa_insieme(insieme_differenza);
     
     /* Comunicazione dell'esito del calcolo della
-     * differenza simmetrica fra gli insiemi insieriti */
+     * differenza simmetrica fra gli insiemi inseriti */
     printf("\n[DIFFERENZA SIMMETRICA]: ");
     stampa_insieme(insieme_diff_simm);
     
@@ -218,7 +218,7 @@ void libera_buffer()
 /* Definizione della funzione che cerca un elemento all'interno
  * di un insieme e restituisce l'esito della ricerca. */
 bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
-                                                  * della lista*/
+                                                  * dell'insieme*/
                       float el_ricercato)        /* Valore da ricercare
                                                   * nell'insieme*/
 {
@@ -253,7 +253,7 @@ bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
  * inserito non rispetta il formato (numero reale e non
  * precedentemente acquisito), l'acquisizione viene ripetuta. */
 void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
-                                                * della lista */
+                                                * dell'insieme */
                          int cardinalita)      /* Cardinalità
                                                 * dell'insieme*/
 {
@@ -302,7 +302,7 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
             else
             {
                 /* Validazione superata: inserimento dell'elemento
-                 * nella consona posizione all'interno della lista */
+                 * nella consona posizione all'interno dell'insieme */
                 el_insieme_t *nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
                 nuovo_el->valore   = valore_ingresso;
                 nuovo_el->prossimo = NULL;
@@ -324,8 +324,8 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
     while (i < cardinalita);
 }
 
-/* Definizione della funzione che inserisce all'interno della
- * lista un elemento già sottoposto a validazione. L'elemento
+/* Definizione della funzione che inserisce all'interno dell'insieme
+ * un elemento già sottoposto a validazione. L'elemento
  * viene inserito nella posizione consona (in ordine ascendente)
  * a seconda del proprio valore. */
 void inserisci_acquisizione(el_insieme_t **testa,       /* Elemento testa
@@ -339,7 +339,7 @@ void inserisci_acquisizione(el_insieme_t **testa,       /* Elemento testa
     if (*testa == NULL ||
         (*testa)->valore > el_acquisito->valore)
     {
-        /* Inserimento dell'elemento in testa in caso di lista vuota
+        /* Inserimento dell'elemento in testa in caso di insieme vuoto
          * o valore minore del primo elemento. */
         el_acquisito->prossimo = *testa;
         *testa = el_acquisito;
