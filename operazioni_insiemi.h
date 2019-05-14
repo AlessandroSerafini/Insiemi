@@ -21,8 +21,6 @@
 /* Ridefinizione dei tipi esportati */
 /************************************/
 
-// TODO: chiedere a marco se questo tipo custom va definito anche all'interno del programma test (funziona anche senza)
-
 typedef struct el_insieme
 {
     float             valore;
