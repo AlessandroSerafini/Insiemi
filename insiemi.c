@@ -24,10 +24,10 @@
 /* Dichiarazione della funzione che acquisisce la cardinalità
  * dell'insieme a seguito di apposita validazione.
  * Se il valore inserito non rispetta il formato
- * (numero intero positivo), l'acquisizione viene ripetuta.
- * Richiede come argomento il puntatore alla variabile
- * nella quale scrivere il valore. */
-void acquisisci_cardinalita(int *cardinalita);
+ * (numero intero positivo), l'acquisizione viene ripetuta. */
+void acquisisci_cardinalita(int *cardinalita); /* Puntatore alla
+                                                * variabile nella quale
+                                                * scrivere il valore */
 
 /* Dichiarazione della funzione che libera il buffer */
 void libera_buffer();
@@ -58,9 +58,9 @@ void inserisci_acquisizione(el_insieme_t **testa,        /* Elemento testa
                                                           * da inserire */
 
 /* Dichiarazione della funzione che stampa a schermo il valore di
- * ogni elemento di un insieme. Richiede come argomento
- * l'elemento testa dell'insieme da stampare. */
-void stampa_insieme(el_insieme_t *elemento);
+ * ogni elemento di un insieme. */
+void stampa_insieme(el_insieme_t *elemento); /* Elemento testa
+                                              * dell'insieme da stampare. */
 
 /******************************/
 /* Definizione delle funzioni */
@@ -155,10 +155,10 @@ int main()
 /* Definizione della funzione che acquisisce la cardinalità
  * dell'insieme a seguito di apposita validazione.
  * Se il valore inserito non rispetta il formato
- * (numero intero positivo), l'acquisizione viene ripetuta.
- * Richiede come argomento il puntatore alla variabile
- * nella quale scrivere il valore. */
-void acquisisci_cardinalita(int *cardinalita)
+ * (numero intero positivo), l'acquisizione viene ripetuta. */
+void acquisisci_cardinalita(int *cardinalita) /* Input: Puntatore alla
+                                               * variabile nella quale
+                                               * scrivere il valore. */
 {
     /* Dichiarazione delle variabili locali alla funzione */
     int  esito_lettura,               /* Lavoro: numero di valori
@@ -217,9 +217,10 @@ void libera_buffer()
 
 /* Definizione della funzione che cerca un elemento all'interno
  * di un insieme e restituisce l'esito della ricerca. */
-bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
+bool cerca_in_insieme(el_insieme_t *el_corrente, /* Lavoro: Elemento testa
                                                   * dell'insieme*/
-                      float el_ricercato)        /* Valore da ricercare
+                      float el_ricercato)        /* Lavoro: Valore da
+                                                  * ricercare
                                                   * nell'insieme*/
 {
     /* Dichiarazione delle variabili locali alla funzione */
@@ -252,9 +253,9 @@ bool cerca_in_insieme(el_insieme_t *el_corrente, /* Elemento testa
  * dell'insieme a seguito di apposita validazione. Se il valore
  * inserito non rispetta il formato (numero reale e non
  * precedentemente acquisito), l'acquisizione viene ripetuta. */
-void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
+void acquisisci_elementi(el_insieme_t **testa, /* Lavoro: Elemento testa
                                                 * dell'insieme */
-                         int cardinalita)      /* Cardinalità
+                         int cardinalita)      /* Lavoro: Cardinalità
                                                 * dell'insieme*/
 {
     /* Dichiarazione delle variabili locali alla funzione */
@@ -284,7 +285,7 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
             /* Acquisizione del valore */
             esito_lettura = scanf("%f",
                                   &valore_ingresso);
-    
+            
             /* Validazione del valore come descritto in fase di definizione
              * della funzione. Nel caso in cui il valore non sia valido,
              * l'acquisizione viene nuovamente richiesta. */
@@ -328,9 +329,10 @@ void acquisisci_elementi(el_insieme_t **testa, /* Elemento testa
  * un elemento già sottoposto a validazione. L'elemento
  * viene inserito nella posizione consona (in ordine ascendente)
  * a seconda del proprio valore. */
-void inserisci_acquisizione(el_insieme_t **testa,       /* Elemento testa
+void inserisci_acquisizione(el_insieme_t **testa,       /* Lavoro: Elemento
+                                                         * testa
                                                          * dell'insieme */
-                            el_insieme_t *el_acquisito) /* Elemento
+                            el_insieme_t *el_acquisito) /* Input: Elemento
                                                          * da inserire */
 {
     /* Dichiarazione delle variabili locali alla funzione */
@@ -360,9 +362,9 @@ void inserisci_acquisizione(el_insieme_t **testa,       /* Elemento testa
 }
 
 /* Definizione della funzione che stampa a schermo il valore di
- * ogni elemento di un insieme. Richiede come argomento
- * l'elemento testa dell'insieme da stampare. */
-void stampa_insieme(el_insieme_t *elemento)
+ * ogni elemento di un insieme. */
+void stampa_insieme(el_insieme_t *elemento) /* Lavoro: Elemento testa
+                                             * dell'insieme da stampare. */
 {
     printf("{");
     while (elemento != NULL)

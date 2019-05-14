@@ -64,9 +64,9 @@ el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,    /* Elemento t
 
 /* Definizione della funzione che restituisce l'intersezione
  * fra due insiemi calcolata ricorsivamente. */
-bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,   /* Elemento testa
+bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento testa
                                                              * del primo insieme */
-                          el_insieme_t *el_secondo_insieme) /* Elemento testa
+                          el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento testa
                                                              * del secondo insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
@@ -114,11 +114,11 @@ bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,   /* Elemento testa
 
 /* Definizione della funzione che restituisce l'intersezione
 * fra due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,   /* Elemento testa
-                                                                      * del primo
+el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento
+                                                                      * testa del primo
                                                                       * insieme */
-                                   el_insieme_t *el_secondo_insieme) /* Elemento testa
-                                                                      * del secondo
+                                   el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento
+                                                                      * testa del secondo
                                                                       * insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
@@ -163,11 +163,11 @@ el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,   /* Elemento
 
 /* Definizione della funzione che restituisce la differenza
 * di due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Elemento testa
-                                                                    * del primo
+el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento
+                                                                    * testa del primo
                                                                     * insieme */
-                                 el_insieme_t *el_secondo_insieme) /* Elemento testa
-                                                                    * del secondo
+                                 el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento
+                                                                    * testa del secondo
                                                                     * insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
@@ -229,11 +229,11 @@ el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Elemento t
 
 /* Definizione della funzione che restituisce la differenza
 * simmetrica di due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,   /* Elemento testa
-                                                                   * del primo
+el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento
+                                                                   * testa del primo
                                                                    * insieme */
-                                el_insieme_t *el_secondo_insieme) /* Elemento testa
-                                                                   * del secondo
+                                el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento
+                                                                   * testa del secondo
                                                                    * insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
