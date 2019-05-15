@@ -70,23 +70,23 @@ void stampa_insieme(el_insieme_t *elemento); /* Elemento testa
 int main()
 {
     /* Dichiarazione delle variabili locali alla funzione */
-    int          cardinalita_primo_insieme,     /* Input: cardinalità
-                                                 * del primo insieme */
-                 cardinalita_secondo_insieme;   /* Input: cardinalità
-                                                 * del secondo insieme */
-    el_insieme_t *testa_primo_insieme   = NULL, /* Lavoro: elemento testa
-                                                 * del primo insieme */
-                 *testa_secondo_insieme = NULL, /* Lavoro: elemento testa
-                                                 * del secondo insieme */
-                 *insieme_intersezione  = NULL, /* Output: elemento
-                                                 * testa dell'insieme
-                                                 * intersezione */
-                 *insieme_differenza    = NULL, /* Output: elemento
-                                                 * testa dell'insieme
-                                                 * differenza */
-                 *insieme_diff_simm     = NULL; /* Output: elemento
-                                                 * testa dell'insieme
-                                                 * differenza simmetrica */
+    int          cardinalita_insieme_1,        /* Input: cardinalità
+                                                * del primo insieme */
+                 cardinalita_insieme_2;        /* Input: cardinalità
+                                                * del secondo insieme */
+    el_insieme_t *testa_insieme_1      = NULL, /* Lavoro: elemento testa
+                                                * del primo insieme */
+                 *testa_insieme_2      = NULL, /* Lavoro: elemento testa
+                                                * del secondo insieme */
+                 *insieme_intersezione = NULL, /* Output: elemento
+                                                * testa dell'insieme
+                                                * intersezione */
+                 *insieme_differenza   = NULL, /* Output: elemento
+                                                * testa dell'insieme
+                                                * differenza */
+                 *insieme_diff_simm    = NULL; /* Output: elemento
+                                                * testa dell'insieme
+                                                * differenza simmetrica */
     
     /* Stampa a schermo delle istruzioni del software per l'utente */
     printf("\n********************\nINSIEMI\n********************\n");
@@ -100,39 +100,39 @@ int main()
     printf("- Differenza\n- Differenza simmetrica\n\n");
     
     /* Acquisizione della cardinalità del primo insieme */
-    acquisisci_cardinalita(&cardinalita_primo_insieme);
+    acquisisci_cardinalita(&cardinalita_insieme_1);
     
     /* Acquisizione degli elementi del primo insieme */
-    acquisisci_elementi(&testa_primo_insieme,
-                        cardinalita_primo_insieme);
+    acquisisci_elementi(&testa_insieme_1,
+                        cardinalita_insieme_1);
     
     /* Acquisizione della cardinalità del secondo insieme */
-    acquisisci_cardinalita(&cardinalita_secondo_insieme);
+    acquisisci_cardinalita(&cardinalita_insieme_2);
     
     /* Acquisizione degli elementi del secondo insieme */
-    acquisisci_elementi(&testa_secondo_insieme,
-                        cardinalita_secondo_insieme);
+    acquisisci_elementi(&testa_insieme_2,
+                        cardinalita_insieme_2);
     
     /* Esecuzione della funzione che calcola
      * l'intersezione fra due insiemi */
-    insieme_intersezione = calcola_intersezione(testa_primo_insieme,
-                                                testa_secondo_insieme);
+    insieme_intersezione = intersezione(testa_insieme_1,
+                                        testa_insieme_2);
     
     /* Esecuzione della funzione che calcola
      * la differenza fra due insiemi */
-    insieme_differenza = calcola_differenza(testa_primo_insieme,
-                                            testa_secondo_insieme);
+    insieme_differenza = differenza(testa_insieme_1,
+                                    testa_insieme_2);
     
     /* Esecuzione della funzione che calcola la
      * differenza simmetrica fra due insiemi */
-    insieme_diff_simm = calcola_diff_simm(testa_primo_insieme,
-                                          testa_secondo_insieme);
+    insieme_diff_simm = diff_simm(testa_insieme_1,
+                                  testa_insieme_2);
     
     /* Comunicazione dell'esito del controllo sull'uguaglianza
      * fra gli insiemi inseriti */
-    printf(verifica_uguaglianza(testa_primo_insieme,
-                                testa_secondo_insieme) ?
-           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali" :
+    printf(uguaglianza(testa_insieme_1,
+                       testa_insieme_2)?
+           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali":
            "\n\n[UGUAGLIANZA]: I due insiemi sono diversi");
     
     /* Comunicazione dell'esito del calcolo dell'intersezione
@@ -213,7 +213,7 @@ void libera_buffer()
     char c; /* Lavoro: carattere utile a svuotare il buffer */
     
     while ((c = getchar()) != '\n' &&
-           c != EOF);
+           c != EOF) {}
 }
 
 /* Definizione della funzione che cerca un elemento all'interno

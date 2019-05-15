@@ -33,38 +33,44 @@ typedef struct el_insieme
 
 /* Ridichiarazione della funzione che stabilisce
  * ricorsivamente se due insiemi sono uguali. */
-extern bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,    /* Elemento testa
-                                                                     * del primo
-                                                                     * insieme */
-                                 el_insieme_t *el_secondo_insieme); /* Elemento
-                                                                     * testa del
-                                                                     * secondo insieme */
+extern bool uguaglianza(el_insieme_t *el_insieme_1,  /* Elemento testa
+                                                      * del primo
+                                                      * insieme */
+                        el_insieme_t *el_insieme_2); /* Elemento
+                                                      * testa del
+                                                      * secondo insieme */
 
 /* Ridichiarazione della funzione che restituisce l'intersezione
  * fra due insiemi calcolata ricorsivamente. */
-extern el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,    /* Elemento
-                                                                              * testa del
-                                                                              * primo
-                                                                              * insieme */
-                                          el_insieme_t *el_secondo_insieme); /* Elemento
-                                                                              * testa del
-                                                                              * secondo
-                                                                              * insieme */
+extern el_insieme_t *intersezione(el_insieme_t *el_insieme_1,  /* Elemento
+                                                                * testa
+                                                                * del
+                                                                * primo
+                                                                * insieme */
+                                  el_insieme_t *el_insieme_2); /* Elemento
+                                                                * testa del
+                                                                * secondo
+                                                                * insieme */
 
 /* Ridichiarazione della funzione che restituisce la differenza
  * di due insiemi calcolata ricorsivamente. */
-extern el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,    /* Elemento
-                                                                            * testa del
-                                                                            * primo insieme */
-                                        el_insieme_t *el_secondo_insieme); /* Elemento testa
-                                                                            * del secondo
-                                                                            * insieme */
+extern el_insieme_t *differenza(el_insieme_t *el_insieme_1,  /* Elemento
+                                                              * testa del
+                                                              * primo
+                                                              * insieme */
+                                el_insieme_t *el_insieme_2); /* Elemento
+                                                              * testa
+                                                              * del
+                                                              * secondo
+                                                              * insieme */
 
 /* Ridichiarazione della funzione che restituisce la differenza
  * simmetrica di due insiemi calcolata ricorsivamente. */
-extern el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,    /* Elemento testa
-                                                                           * del primo
-                                                                           * insieme */
-                                       el_insieme_t *el_secondo_insieme); /* Elemento testa
-                                                                           * del secondo
-                                                                           * insieme */
+extern el_insieme_t *diff_simm(el_insieme_t *el_insieme_1,  /* Elemento
+                                                             * testa
+                                                             * del primo
+                                                             * insieme */
+                               el_insieme_t *el_insieme_2); /* Elemento
+                                                             * testa
+                                                             * del secondo
+                                                             * insieme */

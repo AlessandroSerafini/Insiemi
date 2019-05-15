@@ -22,41 +22,41 @@
 
 /* Dichiarazione della funzione che restituisce l'intersezione
  * fra due insiemi calcolata ricorsivamente. */
-bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,    /* Elemento testa
-                                                              * del primo
-                                                              * insieme */
-                          el_insieme_t *el_secondo_insieme); /* Elemento testa
-                                                              * del secondo
-                                                              * insieme */
+bool uguaglianza(el_insieme_t *el_insieme_1,    /* Elemento testa
+                                                 * del primo
+                                                 * insieme */
+                 el_insieme_t *el_insieme_2);   /* Elemento testa
+                                                 * del secondo
+                                                 * insieme */
 
 /* Dichiarazione della funzione che restituisce l'intersezione
 * fra due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,    /* Elemento
-                                                                       * testa del
-                                                                       * primo
-                                                                       * insieme */
-                                   el_insieme_t *el_secondo_insieme); /* Elemento
-                                                                       * testa del
-                                                                       * secondo
-                                                                       * insieme */
+el_insieme_t *intersezione(el_insieme_t *el_insieme_1,    /* Elemento
+                                                           * testa del
+                                                           * primo
+                                                           * insieme */
+                           el_insieme_t *el_insieme_2);   /* Elemento
+                                                           * testa del
+                                                           * secondo
+                                                           * insieme */
 
 /* Dichiarazione della funzione che restituisce la differenza
 * di due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,    /* Elemento testa
-                                                                     * del primo
-                                                                     * insieme */
-                                 el_insieme_t *el_secondo_insieme); /* Elemento testa
-                                                                     * del secondo
-                                                                     * insieme */
+el_insieme_t *differenza(el_insieme_t *el_insieme_1,    /* Elemento testa
+                                                         * del primo
+                                                         * insieme */
+                         el_insieme_t *el_insieme_2);   /* Elemento testa
+                                                         * del secondo
+                                                         * insieme */
 
 /* Dichiarazione della funzione che restituisce la differenza
 * simmetrica di due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,    /* Elemento testa
-                                                                    * del primo
-                                                                    * insieme */
-                                el_insieme_t *el_secondo_insieme); /* Elemento testa
-                                                                    * del secondo
-                                                                    * insieme */
+el_insieme_t *diff_simm(el_insieme_t *el_insieme_1,    /* Elemento testa
+                                                        * del primo
+                                                        * insieme */
+                        el_insieme_t *el_insieme_2);   /* Elemento testa
+                                                        * del secondo
+                                                        * insieme */
 
 /****************************************/
 /* Definizione delle funzioni esportate */
@@ -64,28 +64,28 @@ el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,    /* Elemento t
 
 /* Definizione della funzione che restituisce l'intersezione
  * fra due insiemi calcolata ricorsivamente. */
-bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento testa
-                                                             * del primo insieme */
-                          el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento testa
-                                                             * del secondo insieme */
+bool uguaglianza(el_insieme_t *el_insieme_1,   /* Lavoro: Elemento testa
+                                                * del primo insieme */
+                 el_insieme_t *el_insieme_2)   /* Lavoro: Elemento testa
+                                                * del secondo insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
     bool risultato = true; /* Output: valore che indica se
                             * i due insiemi sono uguali */
     
     /* Verifica che il primo insieme non sia terminato */
-    if (el_primo_insieme != NULL)
+    if (el_insieme_1 != NULL)
     {
-        if (el_secondo_insieme != NULL)
+        if (el_insieme_2 != NULL)
         {
             /* Se nemmeno il secondo insieme è terminato,
              * verifico l'uguaglianza dei due valori in esame */
-            if (el_primo_insieme->valore == el_secondo_insieme->valore)
+            if (el_insieme_1->valore == el_insieme_2->valore)
             {
                 /* Nel caso in cui i due valori corrispondano,
                  * eseguo il controllo per i prossimi due elementi */
-                risultato = verifica_uguaglianza(el_primo_insieme->prossimo,
-                                                 el_secondo_insieme->prossimo);
+                risultato = uguaglianza(el_insieme_1->prossimo,
+                                        el_insieme_2->prossimo);
             }
             else
             {
@@ -105,7 +105,7 @@ bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento 
     {
         /* Nel caso in cui il primo insieme sia terminato, l'uguaglianza
          * si ha solo nel caso in cui lo sia anche il secondo */
-        risultato = (el_secondo_insieme == NULL);
+        risultato = (el_insieme_2 == NULL);
     }
     
     /* Restituzione del risultato dell'uguaglianza */
@@ -114,36 +114,36 @@ bool verifica_uguaglianza(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento 
 
 /* Definizione della funzione che restituisce l'intersezione
 * fra due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento
-                                                                      * testa del primo
-                                                                      * insieme */
-                                   el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento
-                                                                      * testa del secondo
-                                                                      * insieme */
+el_insieme_t *intersezione(el_insieme_t *el_insieme_1,   /* Lavoro: Elemento
+                                                          * testa del primo
+                                                          * insieme */
+                           el_insieme_t *el_insieme_2)   /* Lavoro: Elemento
+                                                          * testa del secondo
+                                                          * insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
     el_insieme_t *nuovo_el = NULL; /* Output: Elemento testa
                                     * dell'insieme intersezione */
     
     /* Verifica che gli insiemi non siano terminati */
-    if (el_primo_insieme != NULL &&
-        el_secondo_insieme != NULL)
+    if (el_insieme_1 != NULL &&
+        el_insieme_2 != NULL)
     {
-        if (el_primo_insieme->valore < el_secondo_insieme->valore)
+        if (el_insieme_1->valore < el_insieme_2->valore)
         {
             /* Nel caso in cui l'elemento del primo insieme sia minore dell'elemento
              * del secondo insieme, eseguo il controllo fra il successivo elemento
              * del primo insieme e l'elemento del secondo insieme */
-            nuovo_el = calcola_intersezione(el_primo_insieme->prossimo,
-                                            el_secondo_insieme);
+            nuovo_el = intersezione(el_insieme_1->prossimo,
+                                    el_insieme_2);
         }
-        else if (el_primo_insieme->valore > el_secondo_insieme->valore)
+        else if (el_insieme_1->valore > el_insieme_2->valore)
         {
             /* Nel caso in cui l'elemento del primo insieme sia maggiore dell'elemento
              * del secondo insieme, eseguo il controllo fra l'elemento del primo
              * insieme e il successivo elemento del secondo insieme */
-            nuovo_el = calcola_intersezione(el_primo_insieme,
-                                            el_secondo_insieme->prossimo);
+            nuovo_el = intersezione(el_insieme_1,
+                                    el_insieme_2->prossimo);
         }
         else
         {
@@ -151,9 +151,9 @@ el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,   /* Lavoro: 
              * aggiungo l'elemento del primo insieme all'insieme intersezione ed eseguo
              * il controllo sui prossimi due elementi degli insiemi */
             nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-            nuovo_el->valore   = el_primo_insieme->valore;
-            nuovo_el->prossimo = calcola_intersezione(el_primo_insieme->prossimo,
-                                                      el_secondo_insieme->prossimo);
+            nuovo_el->valore   = el_insieme_1->valore;
+            nuovo_el->prossimo = intersezione(el_insieme_1->prossimo,
+                                              el_insieme_2->prossimo);
         }
     }
     
@@ -163,24 +163,24 @@ el_insieme_t *calcola_intersezione(el_insieme_t *el_primo_insieme,   /* Lavoro: 
 
 /* Definizione della funzione che restituisce la differenza
 * di due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento
-                                                                    * testa del primo
-                                                                    * insieme */
-                                 el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento
-                                                                    * testa del secondo
-                                                                    * insieme */
+el_insieme_t *differenza(el_insieme_t *el_insieme_1, /* Lavoro: Elemento
+                                                      * testa del primo
+                                                      * insieme */
+                         el_insieme_t *el_insieme_2) /* Lavoro: Elemento
+                                                      * testa del secondo
+                                                      * insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
     el_insieme_t *nuovo_el = NULL; /* Output: Elemento testa
                                     * dell'insieme differenza */
     
     /* Verifica che il primo insieme non sia terminato */
-    if (el_primo_insieme != NULL)
+    if (el_insieme_1 != NULL)
     {
         /* Verifica che nemmeno il secondo insieme non sia terminato */
-        if (el_secondo_insieme != NULL)
+        if (el_insieme_2 != NULL)
         {
-            if (el_primo_insieme->valore < el_secondo_insieme->valore)
+            if (el_insieme_1->valore < el_insieme_2->valore)
             {
                 /* Nel caso in cui l'elemento del primo insieme sia minore
                  * dell'elemento del secondo insieme, aggiungo l'elemento del primo
@@ -188,26 +188,26 @@ el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Lavoro: El
                  * successivo elemento del primo insieme e l'elemento del
                  * secondo insieme */
                 nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-                nuovo_el->valore   = el_primo_insieme->valore;
-                nuovo_el->prossimo = calcola_differenza(el_primo_insieme->prossimo,
-                                                        el_secondo_insieme);
+                nuovo_el->valore   = el_insieme_1->valore;
+                nuovo_el->prossimo = differenza(el_insieme_1->prossimo,
+                                                el_insieme_2);
             }
-            else if (el_primo_insieme->valore > el_secondo_insieme->valore)
+            else if (el_insieme_1->valore > el_insieme_2->valore)
             {
                 /* Nel caso in cui l'elemento del primo insieme sia maggiore
                  * dell'elemento del secondo insieme, eseguo il controllo fra
                  * l'elemento del primo insieme e il successivo elemento
                  * del secondo insieme */
-                nuovo_el = calcola_differenza(el_primo_insieme,
-                                              el_secondo_insieme->prossimo);
+                nuovo_el = differenza(el_insieme_1,
+                                      el_insieme_2->prossimo);
             }
             else
             {
                 /* Altrimenti, nel caso in cui gli elementi dei due elementi
                  * siano uguali, eseguo il controllo sui prossimi
                  * due elementi degli insiemi */
-                nuovo_el = calcola_differenza(el_primo_insieme->prossimo,
-                                              el_secondo_insieme->prossimo);
+                nuovo_el = differenza(el_insieme_1->prossimo,
+                                      el_insieme_2->prossimo);
             }
         }
         else
@@ -217,9 +217,9 @@ el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Lavoro: El
              * differenza ed eseguo il controllo fra il successivo elemento del
              * primo insieme e l'elemento del secondo insieme */
             nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-            nuovo_el->valore   = el_primo_insieme->valore;
-            nuovo_el->prossimo = calcola_differenza(el_primo_insieme->prossimo,
-                                                    el_secondo_insieme);
+            nuovo_el->valore   = el_insieme_1->valore;
+            nuovo_el->prossimo = differenza(el_insieme_1->prossimo,
+                                            el_insieme_2);
         }
     }
     
@@ -229,33 +229,33 @@ el_insieme_t *calcola_differenza(el_insieme_t *el_primo_insieme,   /* Lavoro: El
 
 /* Definizione della funzione che restituisce la differenza
 * simmetrica di due insiemi calcolata ricorsivamente. */
-el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,   /* Lavoro: Elemento
-                                                                   * testa del primo
-                                                                   * insieme */
-                                el_insieme_t *el_secondo_insieme) /* Lavoro: Elemento
-                                                                   * testa del secondo
-                                                                   * insieme */
+el_insieme_t *diff_simm(el_insieme_t *el_insieme_1, /* Lavoro: Elemento
+                                                     * testa del primo
+                                                     * insieme */
+                        el_insieme_t *el_insieme_2) /* Lavoro: Elemento
+                                                     * testa del secondo
+                                                     * insieme */
 {
     /* Dichiarazione delle variabili locali alla funzione */
     el_insieme_t *nuovo_el = NULL; /* Output: Elemento testa
                                     * dell'insieme differenza simmetrica */
     
     /* Verifica che gli insiemi non siano terminati */
-    if (el_primo_insieme != NULL &&
-        el_secondo_insieme != NULL)
+    if (el_insieme_1 != NULL &&
+        el_insieme_2 != NULL)
     {
-        if (el_primo_insieme->valore < el_secondo_insieme->valore)
+        if (el_insieme_1->valore < el_insieme_2->valore)
         {
             /* Nel caso in cui l'elemento del primo insieme sia minore dell'elemento
              * del secondo insieme, aggiungo l'elemento del primo insieme all'insieme
              * differenza simmetrica ed eseguo il controllo fra il successivo
              * elemento del primo insieme e l'elemento del secondo insieme */
             nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-            nuovo_el->valore   = el_primo_insieme->valore;
-            nuovo_el->prossimo = calcola_diff_simm(el_primo_insieme->prossimo,
-                                                   el_secondo_insieme);
+            nuovo_el->valore   = el_insieme_1->valore;
+            nuovo_el->prossimo = diff_simm(el_insieme_1->prossimo,
+                                           el_insieme_2);
         }
-        else if (el_primo_insieme->valore > el_secondo_insieme->valore)
+        else if (el_insieme_1->valore > el_insieme_2->valore)
         {
             /* Nel caso in cui l'elemento del primo insieme sia maggiore
              * dell'elemento del secondo insieme, aggiungo l'elemento del secondo
@@ -263,43 +263,43 @@ el_insieme_t *calcola_diff_simm(el_insieme_t *el_primo_insieme,   /* Lavoro: Ele
              * l'elemento del primo insieme e il successivo elemento
              * del secondo insieme */
             nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-            nuovo_el->valore   = el_secondo_insieme->valore;
-            nuovo_el->prossimo = calcola_diff_simm(el_primo_insieme,
-                                                   el_secondo_insieme->prossimo);
+            nuovo_el->valore   = el_insieme_2->valore;
+            nuovo_el->prossimo = diff_simm(el_insieme_1,
+                                           el_insieme_2->prossimo);
         }
         else
         {
             /* Altrimenti, nel caso in cui gli elementi dei due elementi siano
              * uguali, eseguo il controllo sui prossimi
              * due elementi degli insiemi */
-            nuovo_el = calcola_diff_simm(el_primo_insieme->prossimo,
-                                         el_secondo_insieme->prossimo);
+            nuovo_el = diff_simm(el_insieme_1->prossimo,
+                                 el_insieme_2->prossimo);
         }
     }
-    else if (el_primo_insieme != NULL &&
-             el_secondo_insieme == NULL)
+    else if (el_insieme_1 != NULL &&
+             el_insieme_2 == NULL)
     {
         /* Nel caso in cui il primo insieme non sia terminato ed il secondo insieme
          * lo sia, aggiungo l'elemento del primo insieme all'insieme differenza
          * simmetrica ed eseguo il controllo fra il successivo elemento del primo
          * insieme e l'elemento del secondo insieme */
         nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-        nuovo_el->valore   = el_primo_insieme->valore;
-        nuovo_el->prossimo = calcola_diff_simm(el_primo_insieme->prossimo,
-                                               el_secondo_insieme);
+        nuovo_el->valore   = el_insieme_1->valore;
+        nuovo_el->prossimo = diff_simm(el_insieme_1->prossimo,
+                                       el_insieme_2);
         
     }
-    else if (el_primo_insieme == NULL &&
-             el_secondo_insieme != NULL)
+    else if (el_insieme_1 == NULL &&
+             el_insieme_2 != NULL)
     {
         /* Nel caso in cui il primo insieme sia terminato ed il secondo insieme
          * non lo sia, aggiungo l'elemento del secondo insieme all'insieme differenza
          * simmetrica ed eseguo il controllo fra l'elemento del primo insieme e il
          * successivo elemento del secondo insieme */
         nuovo_el = (el_insieme_t *) malloc(sizeof(el_insieme_t));
-        nuovo_el->valore   = el_secondo_insieme->valore;
-        nuovo_el->prossimo = calcola_diff_simm(el_primo_insieme,
-                                               el_secondo_insieme->prossimo);
+        nuovo_el->valore   = el_insieme_2->valore;
+        nuovo_el->prossimo = diff_simm(el_insieme_1,
+                                       el_insieme_2->prossimo);
     }
     
     /* Restituzione del risultato della differenza simmetrica */
