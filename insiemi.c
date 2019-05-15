@@ -93,7 +93,7 @@ int main()
     printf("\nQuesto software fa uso di una libreria esterna ");
     printf("per effettuare operazioni sugli insiemi.");
     printf("\nGli insiemi in questione sono due e, una volta inserita la ");
-    printf("cardinalità (numero intero e maggiore di zero) di ciascuno, ");
+    printf("cardinalità (numero intero) di ciascuno, ");
     printf("accettano esclusivamente numeri reali ed unici.");
     printf("\nLe operazioni effettuate sono le seguenti:");
     printf("\n- Verifica uguaglianza\n- Intersezione\n");
