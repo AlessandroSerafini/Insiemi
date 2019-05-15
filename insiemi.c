@@ -102,16 +102,24 @@ int main()
     /* Acquisizione della cardinalità del primo insieme */
     acquisisci_cardinalita(&cardinalita_insieme_1);
     
-    /* Acquisizione degli elementi del primo insieme */
-    acquisisci_elementi(&testa_insieme_1,
-                        cardinalita_insieme_1);
+    if (cardinalita_insieme_1 > 0)
+    {
+        /* Acquisizione degli elementi del primo insieme
+         * se la cardinalità inserita è maggiore di 0 */
+        acquisisci_elementi(&testa_insieme_1,
+                            cardinalita_insieme_1);
+    }
     
     /* Acquisizione della cardinalità del secondo insieme */
     acquisisci_cardinalita(&cardinalita_insieme_2);
     
-    /* Acquisizione degli elementi del secondo insieme */
-    acquisisci_elementi(&testa_insieme_2,
-                        cardinalita_insieme_2);
+    if (cardinalita_insieme_2 > 0)
+    {
+        /* Acquisizione degli elementi del secondo insieme
+         * se la cardinalità inserita è maggiore di 0 */
+        acquisisci_elementi(&testa_insieme_2,
+                            cardinalita_insieme_2);
+    }
     
     /* Esecuzione della funzione che calcola
      * l'intersezione fra due insiemi */
@@ -131,8 +139,8 @@ int main()
     /* Comunicazione dell'esito del controllo sull'uguaglianza
      * fra gli insiemi inseriti */
     printf(uguaglianza(testa_insieme_1,
-                       testa_insieme_2)?
-           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali":
+                       testa_insieme_2) ?
+           "\n\n[UGUAGLIANZA]: I due insiemi sono uguali" :
            "\n\n[UGUAGLIANZA]: I due insiemi sono diversi");
     
     /* Comunicazione dell'esito del calcolo dell'intersezione
@@ -182,13 +190,11 @@ void acquisisci_cardinalita(int *cardinalita) /* Input: Puntatore alla
         /* Validazione del valore come descritto in fase di definizione
          * della funzione. Nel caso in cui il valore non sia valido,
          * l'acquisizione viene nuovamente richiesta. */
-        if (esito_lettura != 1 ||
-            *cardinalita <= 0)
+        if (esito_lettura != 1)
         {
             /* Comunicazione all'utente dell'errore in fase di acquisizione
              * e specifica del formato corretto */
-            printf("[ERRORE]: L'input deve essere un numero ");
-            printf("intero maggiore di 0!\n");
+            printf("[ERRORE]: L'input deve essere un numero intero!\n");
         }
         else
         {
@@ -213,7 +219,9 @@ void libera_buffer()
     char c; /* Lavoro: carattere utile a svuotare il buffer */
     
     while ((c = getchar()) != '\n' &&
-           c != EOF) {}
+           c != EOF)
+    {
+    }
 }
 
 /* Definizione della funzione che cerca un elemento all'interno
